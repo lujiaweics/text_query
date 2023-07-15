@@ -4,8 +4,12 @@
  * This file contains a declaration of the TextQuery struct which saves the data
  * from input file.
  */
-#include <bits/stdc++.h>
 
+#ifndef __TEXTQUERY_H__
+#define __TEXTQUERY_H__
+
+#include "util.hpp"
+#include <sstream>
 #include "QueryResult.hpp"
 
 class TextQuery {
@@ -24,10 +28,10 @@ class TextQuery {
 
 TextQuery::TextQuery(std::ifstream &is) : file(new std::vector<std::string>) {
   std::string text;
-  while (getline(is, text)) {
+  while (std::getline(is, text)) {
     file->push_back(text);
     int n = file->size() - 1;
-    std::istringstream line(text);
+    std::stringstream line(text);
     std::string word;
     while (line >> word) {
       auto &lines = wm[word];
@@ -50,3 +54,5 @@ QueryResult TextQuery::query(const std::string &sought) const {
     return QueryResult(sought, loc->second, file);
   }
 }
+
+#endif // __TEXTQUERY_H__

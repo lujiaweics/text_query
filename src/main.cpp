@@ -1,18 +1,11 @@
-#include <bits/stdc++.h>
+#include <fstream>
 
+#include "../include/AndQuery.hpp"
+#include "../include/NotQuery.hpp"
+#include "../include/OrQuery.hpp"
+#include "../include/Query.hpp"
 #include "../include/TextQuery.hpp"
-
-void runQueries(std::ifstream &infile) {
-  TextQuery tq(infile);
-  while (true) {
-    std::cout << "enter word to look for, or q to quit: ";
-    std::string s;
-    if (!(std::cin >> s) || s == "q") {
-      break;
-    }
-    print(std::cout, tq.query(s)) << std::endl;
-  }
-}
+#include "../include/util.hpp"
 
 int main() {
   std::ifstream in("../res/article.txt");
@@ -20,7 +13,13 @@ int main() {
     std::cout << "file open error" << std::endl;
     exit(-1);
   }
-  runQueries(in);
+
+  TextQuery tQuery(in);
+  Query q = Query("fiery") & Query("bird") | Query("wind");
+  print(std::cout, q.eval(tQuery));
+  q = ~Query("beautiful") & (Query("fiery") | Query("bird"));
+  print(std::cout, q.eval(tQuery));
+
   in.close();
 
   return 0;

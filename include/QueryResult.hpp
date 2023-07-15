@@ -4,7 +4,12 @@
  * This file contains a declaration of the QueryResult struct which saves the
  * result from query.
  */
-#include <bits/stdc++.h>
+
+#ifndef __QUERYRESULT_H__
+#define __QUERYRESULT_H__
+
+#include "util.hpp"
+
 using line_no = std::vector<std::string>::size_type;
 
 class QueryResult {
@@ -14,6 +19,10 @@ class QueryResult {
   QueryResult(std::string s, std::shared_ptr<std::set<line_no>> p,
               std::shared_ptr<std::vector<std::string>> f)
       : sought(s), lines(p), file(f) {}
+
+  std::set<line_no>::iterator begin() { return lines->begin(); }
+  std::set<line_no>::iterator end() { return lines->end(); }
+  auto& get_file() const{ return file; }
 
  private:
   std::string sought;  // the query word
@@ -38,3 +47,5 @@ std::ostream& print(std::ostream& os, const QueryResult& qr) {
   }
   return os;
 }
+
+#endif // __QUERYRESULT_H__
